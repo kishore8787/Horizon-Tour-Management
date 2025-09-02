@@ -2,43 +2,185 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
-    <link rel="icon" type="image/png" href="favrembg.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="favrembg.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#0b0f19" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <!-- Mobile & Theming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f19" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="application-name" content="Horizon" />
+
+    <!-- SEO -->
     <title>Horizon</title>
+    <meta name="description" content="Horizon — a modern React app. Fast, accessible, and PWA ready." />
+    <meta name="robots" content="index,follow" />
+    <!-- Replace with your production URL -->
+    <link rel="canonical" href="https://example.com/" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Horizon" />
+    <meta property="og:site_name" content="Horizon" />
+    <meta property="og:description" content="A modern React app. Fast, accessible, and PWA ready." />
+    <meta property="og:url" content="https://example.com/" />
+    <meta property="og:image" content="%PUBLIC_URL%/og.png" />
+    <meta property="og:image:alt" content="Horizon preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Horizon" />
+    <meta name="twitter:description" content="A modern React app. Fast, accessible, and PWA ready." />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og.png" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Perf: preconnect to common hosts (safe no-ops if unused) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <!-- Structured Data (JSON-LD) — replace URLs as you deploy -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Horizon",
+        "applicationCategory": "WebApplication",
+        "operatingSystem": "Any",
+        "url": "https://example.com/",
+        "image": "https://example.com/og.png",
+        "description": "A modern React app. Fast, accessible, and PWA ready."
+      }
+    </script>
+
+    <!-- Minimal inline styles for splash/accessibility (safe for CRA) -->
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #0b0f19;
+        --muted: #6b7280;
+        --ring: #8b5cf6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f19;
+          --fg: #e5e7eb;
+          --muted: #9ca3af;
+          --ring: #a78bfa;
+        }
+      }
+      html, body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Accessible "skip to content" */
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        background: var(--fg);
+        color: var(--bg);
+        padding: 0.5rem 0.75rem;
+        border-radius: 0 0 0.5rem 0.5rem;
+        z-index: 1000;
+      }
+      .skip-link:focus {
+        left: 0.5rem;
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+      }
+      /* Splash screen shown until React mounts */
+      #root {
+        min-height: 100%;
+      }
+      .splash {
+        display: grid;
+        place-items: center;
+        min-height: 100dvh;
+        gap: 0.75rem;
+        text-align: center;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--muted);
+        border-top-color: var(--fg);
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .spinner { animation: none; border-top-color: var(--muted); }
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0;
+        margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+      }
+      noscript {
+        display: block;
+        margin: 0;
+        padding: 1rem;
+        background: #fee2e2;
+        color: #7f1d1d;
+        font-weight: 600;
+        text-align: center;
+      }
+    </style>
+
+    <!--
+      Notice the use of %PUBLIC_URL% in tags above. It will be replaced with the URL
+      of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+    -->
   </head>
   <body>
+    <a class="skip-link" href="#root">Skip to content</a>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+
     <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
+      This HTML file is a template. If you open it directly in the browser, you will see an empty page.
+      React will mount into #root. The splash below is a progressive enhancement and will be
+      replaced automatically once your bundle executes.
     -->
+    <div id="root" aria-busy="true" aria-live="polite">
+      <div class="splash" role="status" aria-label="Loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <div>
+          <strong>Horizon</strong>
+          <div class="sr-only">is loading</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional: auto-remove aria-busy once React sets content (safeguard) -->
+    <script>
+      (function () {
+        // If React hasn't mounted after a while, we still keep the splash.
+        // When React mounts, it will overwrite #root. This guard is harmless.
+        document.addEventListener("DOMContentLoaded", function () {
+          var root = document.getElementById("root");
+          // If your app dispatches a custom event on hydration, you can listen to it instead.
+          setTimeout(function () {
+            if (root && root.firstChild && root.firstChild.classList && root.firstChild.classList.contains("splash")) {
+              // no-op; React will replace it soon
+            }
+          }, 3000);
+        });
+      })();
+    </script>
   </body>
 </html>
