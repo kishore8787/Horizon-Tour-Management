@@ -45,3 +45,4 @@ Horizon was built using the following technologies:
 * [Render](https://render.com/) - Cloud platform for backend Deployment
 * [Netlify](https://www.netlify.com/)- For Frontend development
 
+Open to Contributing
